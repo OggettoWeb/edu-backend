@@ -1,4 +1,4 @@
-edu-backend
+Курсы бэкенд-разработки
 ===========
 
-Backend educational courses
+Здесь будет неш учебный проект.
