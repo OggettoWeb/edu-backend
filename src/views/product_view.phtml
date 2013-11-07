@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Webstore</title>
+</head>
+<body>
+    <h1>Product <?php $product->getName(); ?></h1>
+
+    <img src="<?php echo $product->getImage(); ?>" />
+    <h2><?php echo $product->getName(); ?></h2>
+    <span><?php echo $product->getSku(); ?></span>
+    <span><?php echo $product->getPrice(); ?></span>
+    <span><?php echo $product->getSpecialPrice(); ?></span>
+</body>
+</html>

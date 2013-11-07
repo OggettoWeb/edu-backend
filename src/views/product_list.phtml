@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Webstore</title>
+</head>
+<body>
+<h1>Our Product List</h1>
+<ul>
+    <?php foreach ($products as $_product): ?>
+        <li>
+            <img src="<?php echo $_product->getImage(); ?>" />
+            <h2><?php echo $_product->getName(); ?></h2>
+            <span><?php echo $_product->getSku(); ?></span>
+            <span><?php echo $_product->getPrice(); ?></span>
+            <span><?php echo $_product->getSpecialPrice(); ?></span>
+        </li>
+    <?php endforeach; ?>
+</ul>
+</body>
+</html>

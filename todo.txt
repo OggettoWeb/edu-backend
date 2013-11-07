@@ -1,6 +1,14 @@
 * duplicates in collection tests
 * collections sorting — avoid getData and so (wait for DB integration)
 * collections sorting — support both directions sorting
+
 * render product list
 * render product page
 * psst... take data from DB!
+
+
+router:
+* ?page=product_list -> ProductController::listAction
+* ?page=product_view -> ProductController::viewAction
+* ?page=foo_bar -> FooController::barAction
+

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../src/ProductReview.php';
-require_once __DIR__ . '/../src/ProductReviewCollection.php';
+require_once __DIR__ . '/../src/models/ProductReview.php';
+require_once __DIR__ . '/../src/models/ProductReviewCollection.php';
 
 class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
 {
