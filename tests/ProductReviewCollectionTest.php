@@ -125,4 +125,27 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals((1 + 2 + 3) / 3, $collection->getAverageRating());
     }
+
+    public function testRetrievesReviewsWhichBelongToProduct()
+    {
+        $productFoo = new Product(['sku' => 'foo']);
+        $productBar = new Product(['sku' => 'bar']);
+
+        $collection = new ProductReviewCollection(
+            [
+                new ProductReview(['product' => $productFoo]),
+                new ProductReview(['product' => $productFoo]),
+                new ProductReview(['product' => $productBar]),
+            ]
+        );
+        $collection->filterByProduct($productFoo);
+
+        $this->assertEquals(
+            [
+                new ProductReview(['product' => $productFoo]),
+                new ProductReview(['product' => $productFoo]),
+            ],
+            $collection->getReviews()
+        );
+    }
 }

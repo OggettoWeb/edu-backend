@@ -73,7 +73,9 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
 
     public function testAppliesOffsetForProductCollectionSize()
     {
-        $collection = new ProductCollection([new Product(['sku' => 1]), new Product(['sku' => 2]), new Product(['sku' => 3])]);
+        $collection = new ProductCollection(
+            [new Product(['sku' => 1]), new Product(['sku' => 2]), new Product(['sku' => 3])]
+        );
         $collection->offset(1);
 
         $this->assertEquals(2, $collection->getSize());
