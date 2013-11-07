@@ -3,7 +3,8 @@ require_once __DIR__ . '/EntityCollection.php';
 require_once __DIR__ . '/Product.php';
 require_once __DIR__ . '/ProductReview.php';
 
-class ProductReviewCollection extends EntityCollection
+class ProductReviewCollection
+    extends EntityCollection
 {
     private $_productFilter;
 

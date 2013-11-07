@@ -148,4 +148,21 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
             $collection->getReviews()
         );
     }
+
+    public function testIsIterableWithForeachFunction()
+    {
+        $collection = new ProductReviewCollection(
+            [new ProductReview(['text' => 'foo']), new ProductReview(['text' => 'bar'])]
+        );
+        $expected = array(0 => 'foo', 1 => 'bar');
+        $iterated = false;
+        foreach ($collection as $_key => $_review) {
+            $this->assertEquals($expected[$_key], $_review->getText());
+            $iterated = true;
+        }
+
+        if (!$iterated) {
+            $this->fail('Iteration did not happen');
+        }
+    }
 }

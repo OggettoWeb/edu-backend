@@ -1,6 +1,7 @@
 <?php
 
 class EntityCollection
+    implements IteratorAggregate
 {
     private $_entities = array();
 
@@ -31,5 +32,10 @@ class EntityCollection
     public function offset($offset)
     {
         $this->_offset = $offset;
+    }
+
+    public function getIterator()
+    {
+        return new ArrayIterator($this->_getEntities());
     }
 }

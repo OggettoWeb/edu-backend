@@ -80,4 +80,21 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(2, $collection->getSize());
     }
+
+    public function testIsIterableWithForeachFunction()
+    {
+        $collection = new ProductCollection(
+            [new Product(['sku' => 'foo']), new Product(['sku' => 'bar'])]
+        );
+        $expected = array(0 => 'foo', 1 => 'bar');
+        $iterated = false;
+        foreach ($collection as $_key => $_product) {
+            $this->assertEquals($expected[$_key], $_product->getSku());
+            $iterated = true;
+        }
+
+        if (!$iterated) {
+            $this->fail('Iteration did not happen');
+        }
+    }
 }
