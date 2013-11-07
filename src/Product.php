@@ -1,14 +1,8 @@
 <?php
+require_once __DIR__ . '/Entity.php';
 
-class Product
+class Product extends Entity
 {
-    private $_data = array();
-
-    public function __construct(array $data)
-    {
-        $this->_data = $data;
-    }
-
     public function getSku()
     {
         return $this->_getData('sku');
@@ -37,10 +31,5 @@ class Product
     public function isSpecialPriceApplied()
     {
         return (bool) $this->getSpecialPrice();
-    }
-
-    private function _getData($key)
-    {
-        return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
 }
