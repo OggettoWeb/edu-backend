@@ -165,4 +165,25 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
             $this->fail('Iteration did not happen');
         }
     }
+
+    public function testSortsReviewsByField()
+    {
+        $collection = new ProductReviewCollection(
+            [
+                new ProductReview(['text' => 'C']),
+                new ProductReview(['text' => 'A']),
+                new ProductReview(['text' => 'B'])
+            ]
+        );
+
+        $collection->sort('text');
+        $this->assertEquals(
+            [
+                new ProductReview(['text' => 'A']),
+                new ProductReview(['text' => 'B']),
+                new ProductReview(['text' => 'C']),
+            ],
+            $collection->getReviews()
+        );
+    }
 }

@@ -97,4 +97,25 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
             $this->fail('Iteration did not happen');
         }
     }
+
+    public function testSortsProductsByField()
+    {
+        $collection = new ProductCollection(
+            [
+                new Product(['sku' => 'C']),
+                new Product(['sku' => 'A']),
+                new Product(['sku' => 'B'])
+            ]
+        );
+
+        $collection->sort('sku');
+        $this->assertEquals(
+            [
+                new Product(['sku' => 'A']),
+                new Product(['sku' => 'B']),
+                new Product(['sku' => 'C'])
+            ],
+            $collection->getProducts()
+        );
+    }
 }

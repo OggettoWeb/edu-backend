@@ -13,4 +13,9 @@ class Entity
     {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
+
+    public function getData($key)
+    {
+        return $this->_getData($key);
+    }
 }
