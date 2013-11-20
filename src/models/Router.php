@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/RouterException.php';
 class Router
 {
     private $_controller;
@@ -6,7 +7,11 @@ class Router
 
     public function __construct($route)
     {
-        list($this->_controller, $this->_action) = explode('_', $route);
+        $parsedRoute = explode('_', $route);
+        if (sizeof($parsedRoute) != 2) {
+            throw new RouterException('Invalid route path');
+        }
+        list($this->_controller, $this->_action) = $parsedRoute;
     }
 
     public function getController()
@@ -16,6 +21,6 @@ class Router
 
     public function getAction()
     {
-        return $this->_action . 'Action';
+        return lcfirst($this->_action) . 'Action';
     }
 }

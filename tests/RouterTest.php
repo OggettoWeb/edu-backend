@@ -24,4 +24,28 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $router = new Router('product_list');
         $this->assertEquals('listAction',$router->getAction());
     }
+
+    public function testTransformsFirstCharacterOfControllerNameToUppercase()
+    {
+        $router = new Router('foo_bar');
+        $this->assertEquals(
+            'FooController', $router->getController()
+        );
+    }
+
+    public function testTransformsFirstCharacterOfActionToLowercase()
+    {
+        $router = new Router('foo_Bar');
+        $this->assertEquals('barAction',$router->getAction());
+    }
+
+    /**
+     *
+     * @expectedException RouterException
+     * @expectedExceptionMessage Invalid route path
+     */
+    public function testThrowsExceptionIfRouteIsInvalid()
+    {
+        $router = new Router('foo');
+    }
 }
