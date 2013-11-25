@@ -32,4 +32,14 @@ class Product extends Entity
     {
         return (bool) $this->getSpecialPrice();
     }
+
+    public function getId()
+    {
+        return $this->_getData('product_id');
+    }
+
+    public function load(IResourceEntity $resource, $id)
+    {
+        $this->_data = $resource->find($id);
+    }
 }

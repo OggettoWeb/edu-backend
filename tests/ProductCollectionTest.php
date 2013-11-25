@@ -1,91 +1,39 @@
 <?php
-require_once __DIR__ . '/../src/models/Product.php';
+require_once __DIR__ . '/../src/models/Resource/IResourceCollection.php';
 require_once __DIR__ . '/../src/models/ProductCollection.php';
 
 class ProductCollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function testReturnsProductsWhichHaveBeenInitialized()
+    public function testTakesDataFromResource()
     {
-        $products = [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar'])];
-        $collection = new ProductCollection($products);
-        $this->assertEquals($products, $collection->getProducts());
-    }
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['name' => 'Nokla']
+                ]
+            ));
 
-    public function testCalculatesCollectionSizeAsProductsCount()
-    {
-        $products = new ProductCollection([new Product([]), new Product([])]);
-        $this->assertEquals(2, $products->getSize());
+        $collection = new ProductCollection($resource);
 
-        $products = new ProductCollection([new Product([])]);
-        $this->assertEquals(1, $products->getSize());
-    }
-
-    public function testAppliesLimitToProductCollectionSize()
-    {
-        $products = new ProductCollection(
-            [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]
-        );
-        $products->limit(1);
-        $this->assertEquals(1, $products->getSize());
-
-        $products->limit(2);
-        $this->assertEquals(2, $products->getSize());
-
-        $products->limit(4);
-        $this->assertEquals(3, $products->getSize());
-    }
-
-    public function testAppliesLimitToCollectionProducts()
-    {
-        $products = new ProductCollection(
-            [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]
-        );
-        $products->limit(1);
-        $this->assertEquals([new Product(['sku' => 'fuu'])], $products->getProducts());
-
-        $products->limit(2);
-        $this->assertEquals([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar'])], $products->getProducts());
-    }
-
-    public function testAppliesOffsetToCollectionProducts()
-    {
-        $products = new ProductCollection(
-            [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]
-        );
-        $products->offset(1);
-        $this->assertEquals([new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])], $products->getProducts());
-
-        $products->offset(2);
-        $this->assertEquals([new Product(['sku' => 'baz'])], $products->getProducts());
-    }
-
-    public function testReturnsAllProductsForZeroOffset()
-    {
-        $products = new ProductCollection(
-            [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]
-        );
-        $products->offset(0);
-        $this->assertEquals(
-            [new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])],
-            $products->getProducts()
-        );
-    }
-
-    public function testAppliesOffsetForProductCollectionSize()
-    {
-        $collection = new ProductCollection(
-            [new Product(['sku' => 1]), new Product(['sku' => 2]), new Product(['sku' => 3])]
-        );
-        $collection->offset(1);
-
-        $this->assertEquals(2, $collection->getSize());
+        $products = $collection->getProducts();
+        $this->assertEquals('Nokla', $products[0]->getName());
     }
 
     public function testIsIterableWithForeachFunction()
     {
-        $collection = new ProductCollection(
-            [new Product(['sku' => 'foo']), new Product(['sku' => 'bar'])]
-        );
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['sku' => 'foo'],
+                    ['sku' => 'bar']
+                ]
+            ));
+
+        $collection = new ProductCollection($resource);
         $expected = array(0 => 'foo', 1 => 'bar');
         $iterated = false;
         foreach ($collection as $_key => $_product) {
@@ -98,24 +46,4 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSortsProductsByField()
-    {
-        $collection = new ProductCollection(
-            [
-                new Product(['sku' => 'C']),
-                new Product(['sku' => 'A']),
-                new Product(['sku' => 'B'])
-            ]
-        );
-
-        $collection->sort('sku');
-        $this->assertEquals(
-            [
-                new Product(['sku' => 'A']),
-                new Product(['sku' => 'B']),
-                new Product(['sku' => 'C'])
-            ],
-            $collection->getProducts()
-        );
-    }
 }
