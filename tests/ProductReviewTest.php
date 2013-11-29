@@ -49,4 +49,19 @@ class ProductReviewReviewTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($review->belongsToProduct($productFoo));
         $this->assertFalse($review->belongsToProduct($productBar));
     }
+
+
+    public function testLoadsDataFromResource()
+    {
+        $resource = $this->getMock('IResourceEntity');
+        $resource->expects($this->any())
+            ->method('find')
+            ->with($this->equalTo(42))
+            ->will($this->returnValue(['name' => 'Vasia']));
+
+        $productReview = new ProductReview([]);
+        $productReview->load($resource, 42);
+
+        $this->assertEquals('Vasia', $productReview->getName());
+    }
 }

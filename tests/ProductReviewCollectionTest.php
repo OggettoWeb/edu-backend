@@ -1,163 +1,44 @@
 <?php
-require_once __DIR__ . '/../src/models/ProductReview.php';
+require_once __DIR__ . '/../src/models/Resource/IResourceCollection.php';
 require_once __DIR__ . '/../src/models/ProductReviewCollection.php';
+require_once __DIR__ . '/../src/models/Product.php';
 
 class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function testReturnsReviewsWhichHaveBeenInitialized()
+    public function testTakesDataFromResource()
     {
-        $reviews = [new ProductReview(['text' => 'fuu']), new ProductReview(['text' => 'bar'])];
-        $collection = new ProductReviewCollection($reviews);
-        $this->assertEquals($reviews, $collection->getReviews());
-    }
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['name' => 'Vasia']
+                ]
+            ));
 
-    public function testCalculatesCollectionSizeAsProductReviewsCount()
-    {
-        $reviews = new ProductReviewCollection([new ProductReview([]), new ProductReview([])]);
-        $this->assertEquals(2, $reviews->getSize());
+        $collection = new ProductReviewCollection($resource);
 
-        $reviews = new ProductReviewCollection([new ProductReview([])]);
-        $this->assertEquals(1, $reviews->getSize());
-    }
-
-    public function testAppliesLimitToProductReviewCollectionSize()
-    {
-        $reviews = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 'fuu']),
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ]
-        );
-        $reviews->limit(1);
-        $this->assertEquals(1, $reviews->getSize());
-
-        $reviews->limit(2);
-        $this->assertEquals(2, $reviews->getSize());
-
-        $reviews->limit(4);
-        $this->assertEquals(3, $reviews->getSize());
-    }
-
-    public function testAppliesLimitToCollectionProductReviews()
-    {
-        $reviews = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 'fuu']),
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ]
-        );
-        $reviews->limit(1);
-        $this->assertEquals([new ProductReview(['text' => 'fuu'])], $reviews->getReviews());
-
-        $reviews->limit(2);
-        $this->assertEquals(
-            [new ProductReview(['text' => 'fuu']), new ProductReview(['text' => 'bar'])],
-            $reviews->getReviews()
-        );
-    }
-
-    public function testAppliesOffsetToCollectionProductReviews()
-    {
-        $reviews = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 'fuu']),
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ]
-        );
-        $reviews->offset(1);
-        $this->assertEquals(
-            [
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ],  $reviews->getReviews())
-        ;
-
-        $reviews->offset(2);
-        $this->assertEquals([new ProductReview(['text' => 'baz'])], $reviews->getReviews());
-    }
-
-    public function testReturnsAllProductReviewsForZeroOffset()
-    {
-        $reviews = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 'fuu']),
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ]
-        );
-        $reviews->offset(0);
-        $this->assertEquals(
-            [
-                new ProductReview(['text' => 'fuu']),
-                new ProductReview(['text' => 'bar']),
-                new ProductReview(['text' => 'baz'])
-            ],
-            $reviews->getReviews()
-        );
-    }
-
-    public function testAppliesOffsetForProductReviewCollectionSize()
-    {
-        $collection = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 1]),
-                new ProductReview(['text' => 2]),
-                new ProductReview(['text' => 3])
-            ]
-        );
-        $collection->offset(1);
-
-        $this->assertEquals(2, $collection->getSize());
-    }
-    
-    public function testCalculatesAverageRatingOfReviews()
-    {
-        $collection = new ProductReviewCollection(
-            [
-                new ProductReview(['rating' => 1]),
-                new ProductReview(['rating' => 2]),
-                new ProductReview(['rating' => 3])
-            ]
-        );
-
-        $this->assertEquals((1 + 2 + 3) / 3, $collection->getAverageRating());
-    }
-
-    public function testRetrievesReviewsWhichBelongToProduct()
-    {
-        $productFoo = new Product(['sku' => 'foo']);
-        $productBar = new Product(['sku' => 'bar']);
-
-        $collection = new ProductReviewCollection(
-            [
-                new ProductReview(['product' => $productFoo]),
-                new ProductReview(['product' => $productFoo]),
-                new ProductReview(['product' => $productBar]),
-            ]
-        );
-        $collection->filterByProduct($productFoo);
-
-        $this->assertEquals(
-            [
-                new ProductReview(['product' => $productFoo]),
-                new ProductReview(['product' => $productFoo]),
-            ],
-            $collection->getReviews()
-        );
+        $reviews = $collection->getReviews();
+        $this->assertEquals('Vasia', $reviews[0]->getName());
     }
 
     public function testIsIterableWithForeachFunction()
     {
-        $collection = new ProductReviewCollection(
-            [new ProductReview(['text' => 'foo']), new ProductReview(['text' => 'bar'])]
-        );
-        $expected = array(0 => 'foo', 1 => 'bar');
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['name' => 'Vasia'],
+                    ['name' => 'Petia']
+                ]
+            ));
+
+        $collection = new ProductReviewCollection($resource);
+        $expected = array(0 => 'Vasia', 1 => 'Petia');
         $iterated = false;
-        foreach ($collection as $_key => $_review) {
-            $this->assertEquals($expected[$_key], $_review->getText());
+        foreach ($collection as $_key => $_productReview) {
+            $this->assertEquals($expected[$_key], $_productReview->getName());
             $iterated = true;
         }
 
@@ -166,24 +47,36 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSortsReviewsByField()
+    /**
+     * @dataProvider getProductIds
+     */
+    public function testFiltersCollectionByProduct($productId)
     {
-        $collection = new ProductReviewCollection(
-            [
-                new ProductReview(['text' => 'C']),
-                new ProductReview(['text' => 'A']),
-                new ProductReview(['text' => 'B'])
-            ]
-        );
+        $product = new Product(['product_id' => $productId]);
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('filterBy')
+            ->with($this->equalTo('product_id'), $this->equalTo($productId));
 
-        $collection->sort('text');
-        $this->assertEquals(
-            [
-                new ProductReview(['text' => 'A']),
-                new ProductReview(['text' => 'B']),
-                new ProductReview(['text' => 'C']),
-            ],
-            $collection->getReviews()
-        );
+        $collection = new ProductReviewCollection($resource);
+
+        $collection->filterByProduct($product);
     }
+
+    public function getProductIds()
+    {
+        return [[1], [2]];
+    }
+
+    public function testCalculatesAverageRating()
+    {
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('average')
+            ->with($this->equalTo('rating'));
+
+        $collection = new ProductReviewCollection($resource);
+        $collection->getAverageRating();
+    }
+
 }
