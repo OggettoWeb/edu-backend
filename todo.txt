@@ -12,3 +12,6 @@ other backend:
 * incapsulate DB connection object
 * problem with connection in controller
 * setup phpunit via phpunit.xml
+
+misc:
+* install phpunit

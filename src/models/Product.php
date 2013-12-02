@@ -30,7 +30,7 @@ class Product extends Entity
 
     public function isSpecialPriceApplied()
     {
-        return (bool) $this->getSpecialPrice();
+        return $this->getSpecialPrice() > 0;
     }
 
     public function getId()
