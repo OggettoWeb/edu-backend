@@ -8,7 +8,7 @@ frontend:
 other backend:
 --- security (sql injection)
 --- use autoloader
-* incapsulate table name and primary key
+--- incapsulate table name and primary key
 * incapsulate DB connection object
 * problem with connection in controller
 --- setup phpunit via phpunit.xml
