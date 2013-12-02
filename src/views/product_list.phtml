@@ -3,7 +3,7 @@
     <?php foreach ($products as $_product): ?>
         <li class="product-item">
             <img class="product-item_image" src="<?php echo $_product->getImage(); ?>" />
-            <a href="?page=product_view&id=<?php echo $_product->getId(); ?>">
+            <a href="/?page=product_view&id=<?php echo $_product->getId(); ?>">
                 <h2 class="product-item_title"><?php echo $_product->getName(); ?></h2>
             </a>
             <span class="product-item_sku"><?php echo $_product->getSku(); ?></span>

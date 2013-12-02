@@ -1,14 +1,13 @@
 frontend:
-* fix bug with 0.00 special price
-* design product view/list pages
+1 fix bug with 0.00 special price
 * display product reviews on product page
 * display pagination on product list
 * escape HTML output (security)
-* enhance page rendering (get rid of global variables)
+* enhance page rendering (get rid of global variables, use block classes)
 
 other backend:
-* use autoloader
-* security (sql injection)
+2 security (sql injection)
+3 use autoloader
 * incapsulate table name and primary key
 * incapsulate DB connection object
 * problem with connection in controller
