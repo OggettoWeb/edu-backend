@@ -1,5 +1,5 @@
 frontend:
-1 fix bug with 0.00 special price
+--- fix bug with 0.00 special price
 * display product reviews on product page
 * display pagination on product list
 * escape HTML output (security)

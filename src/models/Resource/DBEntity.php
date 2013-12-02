@@ -16,9 +16,8 @@ class DBEntity
 
     public function find($id)
     {
-        return $this
-            ->_connection
-            ->query("SELECT * FROM {$this->_table} WHERE {$this->_primaryKey} = {$id}")
-            ->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->_connection->prepare("SELECT * FROM {$this->_table} WHERE {$this->_primaryKey} = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
