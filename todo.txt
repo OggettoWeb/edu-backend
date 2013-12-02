@@ -1,8 +1,10 @@
 frontend:
+* fix bug with 0.00 special price
 * design product view/list pages
 * display product reviews on product page
 * display pagination on product list
 * escape HTML output (security)
+* enhance page rendering (get rid of global variables)
 
 other backend:
 * use autoloader

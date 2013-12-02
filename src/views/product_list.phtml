@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Webstore</title>
-</head>
-<body>
-<h1>Our Product List</h1>
-<ul>
+<h1 class="page-header">Our Product List</h1>
+<ul class="product-list">
     <?php foreach ($products as $_product): ?>
-        <li>
+        <li class="product-item">
+            <img class="product-item_image" src="<?php echo $_product->getImage(); ?>" />
             <a href="?page=product_view&id=<?php echo $_product->getId(); ?>">
-                <img src="<?php echo $_product->getImage(); ?>" />
-                <h2><?php echo $_product->getName(); ?></h2>
-                <span><?php echo $_product->getSku(); ?></span>
-                <span><?php echo $_product->getPrice(); ?></span>
-                <span><?php echo $_product->getSpecialPrice(); ?></span>
+                <h2 class="product-item_title"><?php echo $_product->getName(); ?></h2>
             </a>
+            <span class="product-item_sku"><?php echo $_product->getSku(); ?></span>
+            <div>
+                <span
+                    class="product-item_price <?php if ($_product->isSpecialPriceApplied()): ?>old-price<?php endif; ?>">
+                    $<?php echo $_product->getPrice(); ?>
+                </span>
+                <?php if ($_product->isSpecialPriceApplied()): ?>
+                    <span class="product-item_price">$<?php echo $_product->getSpecialPrice(); ?></span>
+                <?php endif; ?>
+            </div>
         </li>
     <?php endforeach; ?>
 </ul>
-</body>
-</html>

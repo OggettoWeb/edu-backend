@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Webstore</title>
-</head>
-<body>
-    <h1>Product <?php $product->getName(); ?></h1>
+<a class="page-back" href="/product-list">&larr;</a>
+<h1 class="page-header">
+    <?php echo $product->getName(); ?>
+</h1>
 
-    <img src="<?php echo $product->getImage(); ?>" />
-    <h2><?php echo $product->getName(); ?></h2>
-    <span><?php echo $product->getSku(); ?></span>
-    <span><?php echo $product->getPrice(); ?></span>
-    <span><?php echo $product->getSpecialPrice(); ?></span>
-</body>
-</html>
+<img class="product-view_image" src="<?php echo $product->getImage(); ?>" />
+<div class="product-view_sku"><?php echo $product->getSku(); ?></div>
+<div>
+    <span
+        class="product-item_price <?php if ($product->isSpecialPriceApplied()): ?>old-price<?php endif; ?>">
+        $<?php echo $product->getPrice(); ?>
+    </span>
+    <?php if($product->isSpecialPriceApplied()): ?>
+        <span class="product-item_price">$<?php echo $product->getSpecialPrice(); ?></span>
+    <?php endif; ?>
+</div>
+

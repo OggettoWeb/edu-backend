@@ -12,7 +12,8 @@ class ProductController
         $resource = new DBCollection($connection, 'products');
         $products = new ProductCollection($resource);
 
-        require_once __DIR__ . '/../views/product_list.phtml';
+        $view = 'product_list';
+        require_once __DIR__ . '/../views/layout/base.phtml';
     }
 
     public function viewAction()
@@ -23,6 +24,7 @@ class ProductController
         $resource = new DBEntity($connection, 'products', 'product_id');
         $product->load($resource, $_GET['id']);
 
-        require_once __DIR__ . '/../views/product_view.phtml';
+        $view = 'product_view';
+        require_once __DIR__ . '/../views/layout/base.phtml';
     }
 }
