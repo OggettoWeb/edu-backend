@@ -10,7 +10,7 @@ class DBCollection
     private $_filters = [];
     private $_bind = [];
 
-    public function __construct(\PDO $connection, $table)
+    public function __construct(\PDO $connection, Table\ITable $table)
     {
         $this->_connection = $connection;
         $this->_table = $table;
@@ -35,7 +35,7 @@ class DBCollection
 
     protected function _prepareSql($columns = '*')
     {
-        $sql = "SELECT {$columns} FROM {$this->_table}";
+        $sql = "SELECT {$columns} FROM {$this->_table->getName()}";
         if ($this->_filters) {
             $sql .= ' WHERE ' . $this->_prepareFilters();
         }

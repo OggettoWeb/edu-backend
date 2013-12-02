@@ -7,8 +7,7 @@ class DBCollectionTest
 {
     public function testFetchesDataFromDb()
     {
-        $collection = new DBCollection($this->getConnection()->getConnection(), 'abstract_collection');
-
+        $collection = $this->_getCollection();
         $this->assertEquals([
             ['id' => 1, 'data' => 'foo'],
             ['id' => 2, 'data' => 'bar']
@@ -17,13 +16,13 @@ class DBCollectionTest
 
     public function testFetchesFilteredData()
     {
-        $collection = new DBCollection($this->getConnection()->getConnection(), 'abstract_collection');
+        $collection = $this->_getCollection();
         $collection->filterBy('id', 1);
         $this->assertEquals([
             ['id' => 1, 'data' => 'foo']
         ], $collection->fetch());
 
-        $collection = new DBCollection($this->getConnection()->getConnection(), 'abstract_collection');
+        $collection = $this->_getCollection();
         $collection->filterBy('data', 'bar');
         $collection->filterBy('id', 2);
         $this->assertEquals([
@@ -40,7 +39,7 @@ class DBCollectionTest
             1 => (1+2+3)/3,
             2 => (10+11+12)/3
         ];
-        $collection = new DBCollection($this->getConnection()->getConnection(), 'abstract_collection');
+        $collection = $this->_getCollection();
         $this->assertEquals($expected[$number], $collection->average($column));
 
     }
@@ -61,5 +60,14 @@ class DBCollectionTest
         return new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
             __DIR__ . '/DBCollectionTest/fixtures/' . $this->getName(false) . '.yaml'
         );
+    }
+
+    private function _getCollection()
+    {
+        $table = $this->getMock('\App\Model\Resource\Table\ITable');
+        $table->expects($this->any())->method('getName')
+            ->will($this->returnValue('abstract_collection'));
+        $collection = new DBCollection($this->getConnection()->getConnection(), $table);
+        return $collection;
     }
 }
