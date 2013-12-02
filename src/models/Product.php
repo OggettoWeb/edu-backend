@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Entity.php';
+namespace App\Model;
 
 class Product extends Entity
 {
@@ -38,7 +38,7 @@ class Product extends Entity
         return $this->_getData('product_id');
     }
 
-    public function load(IResourceEntity $resource, $id)
+    public function load(Resource\IResourceEntity $resource, $id)
     {
         $this->_data = $resource->find($id);
     }

@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../src/models/Product.php';
-require_once __DIR__ . '/../src/models/Resource/IResourceEntity.php';
+namespace Test\Model;
+use \App\Model\Product;
 
-class ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnsSkuWhichHasBeenInitialized()
     {
@@ -75,7 +75,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
 
     public function testLoadsDataFromResource()
     {
-        $resource = $this->getMock('IResourceEntity');
+        $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
         $resource->expects($this->any())
             ->method('find')
             ->with($this->equalTo(42))

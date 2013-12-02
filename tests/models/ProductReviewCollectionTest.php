@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . '/../src/models/Resource/IResourceCollection.php';
-require_once __DIR__ . '/../src/models/ProductReviewCollection.php';
-require_once __DIR__ . '/../src/models/Product.php';
+namespace Test\Model;
+use \App\Model\ProductReviewCollection;
+use \App\Model\Product;
 
-class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
+class ProductReviewCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testTakesDataFromResource()
     {
-        $resource = $this->getMock('IResourceCollection');
+        $resource = $this->getMock('\App\Model\Resource\IResourceCollection');
         $resource->expects($this->any())
             ->method('fetch')
             ->will($this->returnValue(
@@ -24,7 +24,7 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
 
     public function testIsIterableWithForeachFunction()
     {
-        $resource = $this->getMock('IResourceCollection');
+        $resource = $this->getMock('\App\Model\Resource\IResourceCollection');
         $resource->expects($this->any())
             ->method('fetch')
             ->will($this->returnValue(
@@ -53,7 +53,7 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
     public function testFiltersCollectionByProduct($productId)
     {
         $product = new Product(['product_id' => $productId]);
-        $resource = $this->getMock('IResourceCollection');
+        $resource = $this->getMock('\App\Model\Resource\IResourceCollection');
         $resource->expects($this->any())
             ->method('filterBy')
             ->with($this->equalTo('product_id'), $this->equalTo($productId));
@@ -70,7 +70,7 @@ class ProductReviewCollectionTest extends PHPUnit_Framework_TestCase
 
     public function testCalculatesAverageRating()
     {
-        $resource = $this->getMock('IResourceCollection');
+        $resource = $this->getMock('\App\Model\Resource\IResourceCollection');
         $resource->expects($this->any())
             ->method('average')
             ->with($this->equalTo('rating'));

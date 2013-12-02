@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/RouterException.php';
+namespace App\Model;
 class Router
 {
     private $_controller;
@@ -16,7 +16,7 @@ class Router
 
     public function getController()
     {
-        return ucfirst($this->_controller) . 'Controller';
+        return '\\App\\Controller\\' . ucfirst($this->_controller) . 'Controller';
     }
 
     public function getAction()

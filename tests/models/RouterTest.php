@@ -1,18 +1,19 @@
 <?php
-require_once __DIR__ . '/../src/models/Router.php';
+namespace Test\Model;
+use App\Model\Router;
 
-class RouterTest extends PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnsControllerNameMatchedByRoute()
     {
         $router = new Router('foo_bar');
         $this->assertEquals(
-            'FooController', $router->getController()
+            '\App\Controller\FooController', $router->getController()
         );
 
         $router = new Router('product_bar');
         $this->assertEquals(
-            'ProductController', $router->getController()
+            '\App\Controller\ProductController', $router->getController()
         );
     }
 
@@ -29,7 +30,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     {
         $router = new Router('foo_bar');
         $this->assertEquals(
-            'FooController', $router->getController()
+            '\App\Controller\FooController', $router->getController()
         );
     }
 
@@ -41,7 +42,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      *
-     * @expectedException RouterException
+     * @expectedException \App\Model\RouterException
      * @expectedExceptionMessage Invalid route path
      */
     public function testThrowsExceptionIfRouteIsInvalid()

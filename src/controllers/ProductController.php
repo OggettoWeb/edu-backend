@@ -1,14 +1,16 @@
 <?php
-require_once __DIR__ . '/../models/ProductCollection.php';
-require_once __DIR__ . '/../models/Resource/DBCollection.php';
-require_once __DIR__ . '/../models/Resource/DBEntity.php';
-require_once __DIR__ . '/../models/Product.php';
+namespace App\Controller;
+
+use App\Model\Resource\DBCollection;
+use App\Model\Resource\DBEntity;
+use App\Model\ProductCollection;
+use App\Model\Product;
 
 class ProductController
 {
     public function listAction()
     {
-        $connection = new PDO('mysql:host=localhost;dbname=student', 'root', '123123');
+        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
         $resource = new DBCollection($connection, 'products');
         $products = new ProductCollection($resource);
 
@@ -20,7 +22,7 @@ class ProductController
     {
         $product = new Product([]);
 
-        $connection = new PDO('mysql:host=localhost;dbname=student', 'root', '123123');
+        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
         $resource = new DBEntity($connection, 'products', 'product_id');
         $product->load($resource, $_GET['id']);
 

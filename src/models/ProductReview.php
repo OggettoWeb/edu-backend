@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/Product.php';
-require_once __DIR__ . '/Entity.php';
+namespace App\Model;
 
 class ProductReview extends Entity
 {
@@ -29,7 +28,7 @@ class ProductReview extends Entity
         return $product == $this->_getData('product');
     }
 
-    public function load(IResourceEntity $resource, $id)
+    public function load(Resource\IResourceEntity $resource, $id)
     {
         $this->_data = $resource->find($id);
     }

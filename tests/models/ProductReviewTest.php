@@ -1,8 +1,9 @@
 <?php
-require_once __DIR__ . '/../src/models/ProductReview.php';
-require_once __DIR__ . '/../src/models/Product.php';
+namespace Test\Model;
+use \App\Model\ProductReview;
+use \App\Model\Product;
 
-class ProductReviewReviewTest extends PHPUnit_Framework_TestCase
+class ProductReviewTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnsNameWhichHasBeenInitialized()
     {
@@ -53,7 +54,7 @@ class ProductReviewReviewTest extends PHPUnit_Framework_TestCase
 
     public function testLoadsDataFromResource()
     {
-        $resource = $this->getMock('IResourceEntity');
+        $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
         $resource->expects($this->any())
             ->method('find')
             ->with($this->equalTo(42))

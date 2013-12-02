@@ -1,13 +1,12 @@
 <?php
-require_once __DIR__ . '/Resource/IResourceCollection.php';
-require_once __DIR__ . '/ProductReview.php';
+namespace App\Model;
 
 class ProductReviewCollection
-    implements IteratorAggregate
+    implements \IteratorAggregate
 {
     private $_resource;
 
-    public function __construct(IResourceCollection $resource)
+    public function __construct(Resource\IResourceCollection $resource)
     {
         $this->_resource = $resource;
     }
@@ -24,7 +23,7 @@ class ProductReviewCollection
 
     public function getIterator()
     {
-        return new ArrayIterator($this->getReviews());
+        return new \ArrayIterator($this->getReviews());
     }
 
     public function filterByProduct(Product $product)

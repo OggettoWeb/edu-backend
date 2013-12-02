@@ -6,12 +6,13 @@ frontend:
 * enhance page rendering (get rid of global variables, use block classes)
 
 other backend:
-2 security (sql injection)
-3 use autoloader
+--- security (sql injection)
+--- use autoloader
 * incapsulate table name and primary key
 * incapsulate DB connection object
 * problem with connection in controller
-* setup phpunit via phpunit.xml
+--- setup phpunit via phpunit.xml
 
 misc:
 * install phpunit
+* install xdebug

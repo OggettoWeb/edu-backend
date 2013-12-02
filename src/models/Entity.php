@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Model;
 class Entity
 {
     protected $_data = array();

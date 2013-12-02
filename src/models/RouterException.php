@@ -1,5 +1,7 @@
 <?php
-class RouterException extends Exception
+namespace App\Model;
+
+class RouterException extends \Exception
 {
 
 }
