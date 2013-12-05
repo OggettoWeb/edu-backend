@@ -2,9 +2,6 @@
 namespace Test\Model\Resource;
 use App\Model\Resource\DBEntity;
 
-class PDOMock extends \PDO {
-    public function __construct() {}
-}
 class DBEntityTest
     extends \PHPUnit_Extensions_Database_TestCase
 {
