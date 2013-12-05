@@ -2,11 +2,16 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="public/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="public/css/main.css"/>
     <title>Student Webstore</title>
     <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+<div class="login">
+    <a href="?page=customer_login">Login</a> |
+    <a href="?page=customer_register">Sign Up</a>
+</div>
     <div class="page-content">
         <?php require_once __DIR__ . "/../{$view}.phtml"; ?>
     </div>

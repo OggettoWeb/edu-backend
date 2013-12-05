@@ -67,3 +67,8 @@
     font-size: 0.8em;
     margin-right: 5px;
 }
+
+.login {
+    float: right;
+    font-size: 0.7em;
+}
