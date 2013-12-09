@@ -41,12 +41,64 @@ class DBCollectionTest
         ];
         $collection = $this->_getCollection();
         $this->assertEquals($expected[$number], $collection->average($column));
-
     }
 
     public function getColumns()
     {
         return [['id', 1],['data', 2]];
+    }
+
+    /**
+     * @dataProvider getLimitAmounts
+     */
+    public function testLimitsItemsBySpecifiedAmount($limit)
+    {
+        $expected = [
+            1 => [['id' => 1, 'data' => 'foo']],
+            2 => [['id' => 1, 'data' => 'foo'], ['id' => 2, 'data' => 'bar']],
+        ];
+        $collection = $this->_getCollection();
+        $collection->limit($limit);
+        $this->assertEquals($expected[$limit], $collection->fetch());
+    }
+
+    /**
+     * @dataProvider getOffsetAmounts
+     */
+    public function testOffsetsItemsToSpecifiedAmount($offset)
+    {
+        $expected = [
+            1 => [['id' => 2, 'data' => 'bar'], ['id' => 3, 'data' => 'baz']],
+            2 => [['id' => 3, 'data' => 'baz']],
+        ];
+        $collection = $this->_getCollection();
+        $collection->limit(100, $offset);
+        $this->assertEquals($expected[$offset], $collection->fetch());
+    }
+
+    public function getLimitAmounts()
+    {
+        return [
+            [1],
+            [2]
+        ];
+    }
+
+    public function getOffsetAmounts()
+    {
+        return [
+            [1],
+            [2]
+        ];
+    }
+
+    public function testCalculatesItemsCount()
+    {
+        $collection = $this->_getCollection();
+        $collection->limit(0);
+        $collection->filterBy('data', 'foo');
+
+        $this->assertEquals(3, $collection->count());
     }
 
     public function getConnection()

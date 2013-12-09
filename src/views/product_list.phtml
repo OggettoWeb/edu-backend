@@ -1,5 +1,9 @@
 <h1 class="page-header">Our Product List</h1>
 <ul class="product-list">
+    <?php for ($page = 1; $page <= $pages->pageCount; $page++): ?>
+        <a href="/?p=<?php echo $page; ?>"><?php echo $page; ?></a>
+    <?php endfor; ?>
+
     <?php foreach ($products as $_product): ?>
         <li class="product-item">
             <img class="product-item_image" src="<?php echo $_product->getImage(); ?>" />
