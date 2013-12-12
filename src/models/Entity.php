@@ -3,8 +3,9 @@ namespace App\Model;
 class Entity
 {
     protected $_data = array();
+    protected $_resource;
 
-    public function __construct(array $data)
+    public function __construct(array $data, Resource\IResourceEntity $resource = null)
     {
         $this->_data = $data;
     }

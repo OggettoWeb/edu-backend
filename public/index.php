@@ -22,9 +22,14 @@ try {
     $controllerName = '\App\Controller\ErrorController';
     $actionName = 'notFoundAction';
 }
+$di = new \Zend\Di\Di();
+(new \App\Model\DiC($di))->assemble();
 
-$controller = new $controllerName;
-$controller->$actionName();
+$controller = new $controllerName($di);
+
+if ($view = $controller->$actionName()) {
+    $view->render();
+}
 
 
 

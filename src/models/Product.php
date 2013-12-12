@@ -38,8 +38,8 @@ class Product extends Entity
         return $this->_getData('product_id');
     }
 
-    public function load(Resource\IResourceEntity $resource, $id)
+    public function load($id)
     {
-        $this->_data = $resource->find($id);
+        $this->_data = $this->_resource->find($id);
     }
 }
