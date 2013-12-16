@@ -27,9 +27,4 @@ class ProductReview extends Entity
     {
         return $product == $this->_getData('product');
     }
-
-    public function load(Resource\IResourceEntity $resource, $id)
-    {
-        $this->_data = $resource->find($id);
-    }
 }

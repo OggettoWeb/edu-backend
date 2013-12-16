@@ -1,6 +1,4 @@
 features:
-* display product reviews on product page (home)
-* display pagination on product list (via Zend\Pagination) (class 0.5)
 * checkout (1 lesson)
   - address (class)
   - shipping method (class)
@@ -8,13 +6,11 @@ features:
 * order creation (send email to admin via Zend\Mail) (home)
 * write reviews from frontend + security (class 0.5)
 
-frontend:
-* enhance page rendering (get rid of global variables, use block classes) - class 0.5
 
 backend:
-* problem with connection in controller - class 0.5
 * dbentity test: returns ID after save
 
 misc:
+* advanced git
 * install phpmyadmin
 * install xdebug

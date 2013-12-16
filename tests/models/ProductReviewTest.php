@@ -60,8 +60,8 @@ class ProductReviewTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(42))
             ->will($this->returnValue(['name' => 'Vasia']));
 
-        $productReview = new ProductReview([]);
-        $productReview->load($resource, 42);
+        $productReview = new ProductReview([], $resource);
+        $productReview->load(42);
 
         $this->assertEquals('Vasia', $productReview->getName());
     }

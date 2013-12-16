@@ -30,6 +30,7 @@ class DiC
     {
         $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
         $this->_im->setParameters('App\Model\Resource\DBCollection', ['connection' => $connection]);
+        $this->_im->setParameters('App\Model\Resource\DBEntity', ['connection' => $connection]);
     }
 
     private function _assembleResources()
@@ -51,7 +52,8 @@ class DiC
         $this->_im->setParameters('App\Model\ProductCollection', ['table' => 'App\Model\Resource\Table\Product']);
         $this->_im->addAlias('ProductCollection', 'App\Model\ProductCollection');
 
-        $this->im->setParameters('App\Model\Product', ['table' => 'App\Model\Resource\Table\Product']);
+        $this->_im->setParameters('App\Model\Product', ['table' => 'App\Model\Resource\Table\Product']);
+        $this->_im->addAlias('Product', 'App\Model\Product');
 
     }
 

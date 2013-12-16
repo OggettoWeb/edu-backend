@@ -33,13 +33,12 @@ class ProductController
 
     public function viewAction()
     {
-        $product = new Product([], $resource);
-
-        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
-        $resource = new DBEntity($connection, new ProductTable);
+        $product = $this->_di->get('Product');
         $product->load($_GET['id']);
 
-        $view = 'product_view';
-        require_once __DIR__ . '/../views/layout/base.phtml';
+        return $this->_di->get('View', [
+            'template' => 'product_view',
+            'params'   => ['product' => $product]
+        ]);
     }
 }

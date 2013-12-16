@@ -12,8 +12,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with($this->equalTo(['name' => 'Vasia']));
 
-        $customer = new Customer(['name' => 'Vasia']);
-        $customer->save($resource);
+        $customer = new Customer(['name' => 'Vasia'], $resource);
+        $customer->save();
     }
 
     public function testGetsIdFromResourceAfterSave()
@@ -24,8 +24,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(['name' => 'Vasia']))
             ->will($this->returnValue(42));
 
-        $customer = new Customer(['name' => 'Vasia']);
-        $customer->save($resource);
+        $customer = new Customer(['name' => 'Vasia'], $resource);
+        $customer->save();
         $this->assertEquals(42, $customer->getId());
     }
 
