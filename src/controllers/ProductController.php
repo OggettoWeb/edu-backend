@@ -24,6 +24,8 @@ class ProductController
 
     public function viewAction()
     {
+        $this->_di->get('Session')->generateToken();
+
         $product = $this->_di->get('Product');
         $product->load($_GET['id']);
 

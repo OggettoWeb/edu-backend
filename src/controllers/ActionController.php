@@ -10,7 +10,7 @@ class ActionController
         $this->_di = $di;
     }
 
-    protected function _redirect($page, $params)
+    protected function _redirect($page, $params = [])
     {
         $urlParams = ['page' => $page];
         $urlParams = array_merge($urlParams, $params);

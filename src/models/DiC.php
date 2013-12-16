@@ -78,5 +78,12 @@ class DiC
         ]);
         $this->_im->addAlias('View', 'App\Model\ModelView');
     }
+
+    private function _assembleSession()
+    {
+        $this->_im->addAlias('Session', 'App\Model\Session');
+        $this->_im->setParameters('App\Model\ISessionUser', [
+            'session' => $this->_di->get('Session')
+        ]);
+    }
 }
- 

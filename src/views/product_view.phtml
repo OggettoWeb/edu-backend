@@ -24,11 +24,12 @@
     <ul>
         <?php foreach ($this->get('reviews') as $_review): ?>
             <li>
-                <?php echo $_review->getText(); ?> (by <?php echo $_review->getName(); ?>)
+                <?php echo htmlentities($_review->getText()); ?> (by <?php echo $_review->getName(); ?>)
             </li>
         <?php endforeach; ?>
     </ul>
     <form class="new-review" action="/?page=productReview_add" method="post">
+        <input type="hidden" name="token" value="<?php echo $this->session()->getToken(); ?>" />
         <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>"/>
         <div>
             <label>Name</label>

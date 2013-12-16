@@ -3,12 +3,14 @@
 namespace App\Model;
 
 class ModelView
+    implements ISessionUser
 {
     private $_layoutDir;
     private $_templateDir;
     private $_layout;
     private $_template;
     private $_params;
+    private $_session;
 
     public function __construct($layoutDir, $templateDir, $layout, $template, $params)
     {
@@ -32,6 +34,16 @@ class ModelView
     public function get($param)
     {
         return $this->_params[$param];
+    }
+
+    public function setSession(Session $session)
+    {
+        $this->_session = $session;
+    }
+
+    public function session()
+    {
+        return $this->_session;
     }
 }
  
