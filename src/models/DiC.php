@@ -57,6 +57,17 @@ class DiC
 
     }
 
+    private function _assembleProductReviews()
+    {
+        $this->_im->setParameters(
+            'App\Model\ProductReviewCollection', ['table' => 'App\Model\Resource\Table\ProductReview']
+        );
+        $this->_im->addAlias('ProductReviewCollection', 'App\Model\ProductReviewCollection');
+
+        $this->_im->setParameters('App\Model\ProductReview', ['table' => 'App\Model\Resource\Table\ProductReview']);
+        $this->_im->addAlias('ProductReview', 'App\Model\ProductReview');
+    }
+
     private function _assembleView()
     {
         $this->_im->setParameters('App\Model\ModelView', [

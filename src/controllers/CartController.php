@@ -1,7 +1,6 @@
 <?php
 class CartController
 {
-
     public function addAction()
     {
         $quoteItem = $this->_initQuoteItem();

@@ -72,3 +72,19 @@
     float: right;
     font-size: 0.7em;
 }
+
+.product-view {
+    float: left;
+    width: 500px;
+}
+
+.reviews {
+    margin-top: 50px;
+    float: left;
+    clear: both;
+}
+
+.new-review {
+    border-top: 1px dotted #ccc;
+    padding-top: 10px;
+}

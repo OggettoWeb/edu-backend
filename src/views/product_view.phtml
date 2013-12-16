@@ -5,15 +5,60 @@
     <?php echo $product->getName(); ?>
 </h1>
 
-<img class="product-view_image" src="<?php echo $product->getImage(); ?>" />
-<div class="product-view_sku"><?php echo $product->getSku(); ?></div>
-<div>
-    <span
-        class="product-item_price <?php if ($product->isSpecialPriceApplied()): ?>old-price<?php endif; ?>">
-        $<?php echo $product->getPrice(); ?>
-    </span>
-    <?php if($product->isSpecialPriceApplied()): ?>
-        <span class="product-item_price">$<?php echo $product->getSpecialPrice(); ?></span>
-    <?php endif; ?>
+<div class="product-view">
+    <img class="product-view_image" src="<?php echo $product->getImage(); ?>"/>
+
+    <div class="product-view_sku"><?php echo $product->getSku(); ?></div>
+    <div>
+        <span
+            class="product-item_price <?php if ($product->isSpecialPriceApplied()): ?>old-price<?php endif; ?>">
+            $<?php echo $product->getPrice(); ?>
+        </span>
+        <?php if ($product->isSpecialPriceApplied()): ?>
+            <span class="product-item_price">$<?php echo $product->getSpecialPrice(); ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="reviews">
+    <h2>Customer Reviews</h2>
+    <ul>
+        <?php foreach ($this->get('reviews') as $_review): ?>
+            <li>
+                <?php echo $_review->getText(); ?> (by <?php echo $_review->getName(); ?>)
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <form class="new-review" action="/?page=productReview_add" method="post">
+        <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>"/>
+        <div>
+            <label>Name</label>
+            <input type="text" name="name"/>
+        </div>
+
+        <div>
+            <label>Email</label>
+            <input type="text" name="email"/>
+        </div>
+
+        <div>
+            <label>Rating</label>
+            <select name="rating">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Text</label>
+            <textarea name="text"></textarea>
+        </div>
+
+        <div>
+            <input type="submit"/>
+        </div>
+    </form>
 </div>
 

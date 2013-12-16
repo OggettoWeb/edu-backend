@@ -1,18 +1,9 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Resource\DBEntity;
-use App\Model\Product;
-use App\Model\Resource\Table\Product as ProductTable;
-
 class ProductController
+    extends ActionController
 {
-    private $_di;
-
-    public function __construct(\Zend\Di\Di $di)
-    {
-        $this->_di = $di;
-    }
     public function listAction()
     {
         $resource = $this->_di->get('ResourceCollection', ['table' => new \App\Model\Resource\Table\Product()]);
@@ -36,9 +27,12 @@ class ProductController
         $product = $this->_di->get('Product');
         $product->load($_GET['id']);
 
+        $reviews = $this->_di->get('ProductReviewCollection');
+        $reviews->filterByProduct($product);
+
         return $this->_di->get('View', [
             'template' => 'product_view',
-            'params'   => ['product' => $product]
+            'params'   => ['product' => $product, 'reviews' => $reviews]
         ]);
     }
 }

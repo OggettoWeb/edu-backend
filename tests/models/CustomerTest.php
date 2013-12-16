@@ -4,7 +4,6 @@ use \App\Model\Customer;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testSavesDataInResource()
     {
         $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
