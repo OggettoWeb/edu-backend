@@ -34,11 +34,7 @@ class QuoteItem
 
     public function addQty($qty)
     {
-        if (isset($this->_data['qty'])) {
-            $this->_data['qty'] += $qty;
-        } else {
-            $this->_data['qty'] = $qty;
-        }
+        $this->_data['qty'] = $this->_getData('qty') + $qty;
     }
 
     public function assignToQuote($quote)
