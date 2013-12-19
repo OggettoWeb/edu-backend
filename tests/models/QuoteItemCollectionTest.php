@@ -3,6 +3,7 @@ namespace Test\Model\Resource;
 
 
 use App\Model\QuoteItem;
+use App\Model\Product;
 use App\Model\QuoteItemCollection;
 
 class QuoteItemPrototypeMock
@@ -18,6 +19,22 @@ class QuoteItemPrototypeMock
     public function wasSaved()
     {
         return $this->_saved;
+    }
+}
+
+class QuoteItemProductMock
+    extends Product
+{
+    private $_loadeWith;
+
+    public function load($id)
+    {
+        $this->_loadeWith = $id;
+    }
+
+    public function getId()
+    {
+        return $this->_loadeWith;
     }
 }
 
@@ -126,5 +143,21 @@ class QuoteItemCollectionTest
         $newItem = $collection->forProduct($product);
         $this->assertTrue($newItem->wasSaved());
         $this->assertTrue($newItem->belongsToProduct($product));
+    }
+
+    public function testAssignsProductsToItems()
+    {
+        $itemFoo = new QuoteItem(['product_id' => 1]);
+        $itemBar = new QuoteItem(['product_id' => 2]);
+
+        $collection = $this->getMockBuilder('App\Model\QuoteItemCollection')
+            ->disableOriginalConstructor()->setMethods(['getItems'])->getMock();
+        $collection->expects($this->any())->method('getItems')
+            ->will($this->returnValue([$itemFoo, $itemBar]));
+
+        $collection->assignProducts(new QuoteItemProductMock());
+
+        $this->assertEquals(1, $itemFoo->getProduct()->getId());
+        $this->assertEquals(2, $itemBar->getProduct()->getId());
     }
 }

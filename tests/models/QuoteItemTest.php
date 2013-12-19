@@ -1,5 +1,6 @@
 <?php
 namespace Test\Model;
+use App\Model\Product;
 use \App\Model\QuoteItem;
 
 class QuoteItemTest extends \PHPUnit_Framework_TestCase
@@ -63,5 +64,27 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
         $item->addQty(1);
 
         $this->assertEquals(11, $item->getQty());
+    }
+
+    public function testAssignProductSetsProductId()
+    {
+        $product = $this->getMock('App\Model\Product', ['getId']);
+        $product->expects($this->any())->method('getId')
+            ->will($this->returnValue(42));
+        $item = new QuoteItem;
+        $item->assignToProduct($product);
+
+        $this->assertEquals(42, $item->getProductId());
+    }
+
+    public function testAssignProductSetsProductInstance()
+    {
+        $product = $this->getMock('App\Model\Product', ['getId']);
+        $product->expects($this->any())->method('getId')
+            ->will($this->returnValue(42));
+        $item = new QuoteItem;
+        $item->assignToProduct($product);
+
+        $this->assertEquals($product, $item->getProduct());
     }
 }
