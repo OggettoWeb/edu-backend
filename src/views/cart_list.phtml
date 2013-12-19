@@ -1,0 +1,7 @@
+<h1>Your Cart</h1>
+
+<ul>
+    <?php foreach ($this->get('items') as $_item): ?>
+        <li><?php echo $_item->getProduct()->getName(); ?> (<?php echo $_item->getQty(); ?>)</li>
+    <?php endforeach; ?>
+</ul>

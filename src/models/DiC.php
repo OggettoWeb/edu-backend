@@ -26,6 +26,7 @@ class DiC
         }
 
         $this->_im->setShared('App\Model\Resource\DBEntity', false);
+        $this->_im->setShared('App\Model\Resource\DBCollection', false);
     }
 
     private function _assembleDbConnection()
@@ -99,7 +100,6 @@ class DiC
             'table' => 'App\Model\Resource\Table\QuoteItem',
             'itemPrototype' => 'App\Model\QuoteItem'
         ]);
-        $this->_im->addAlias('QuoteItems', 'App\Model\QuoteItemCollection');
 
         $this->_im->setParameters('App\Model\Quote', [
             'table' => 'App\Model\Resource\Table\Quote',

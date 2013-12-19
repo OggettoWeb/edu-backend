@@ -9,6 +9,20 @@ class CartController
         $quoteItem = $this->_initQuoteItem();
         $quoteItem->addQty(1);
         $quoteItem->save();
+
+        $this->_redirect('cart_list');
+    }
+
+    public function listAction()
+    {
+        $quote = $this->_initQuote();
+        $items = $quote->getItems();
+        $items->assignProducts($this->_di->get('Product'));
+
+        return $this->_di->get('View', [
+            'template' => 'cart_list',
+            'params'   => ['items' => $items]
+        ]);
     }
 
     private function _initQuoteItem()
@@ -24,20 +38,9 @@ class CartController
 
     private function _initQuote()
     {
-        // no customer quotes for now :(
-//        $quoteItems = $this->_di->get('QuoteItems', ['table' => 'App\Model\Resource\Table\QuoteItem']);
-//        $quote = $this->_di->get('Quote', ['items' => $quoteItems, 'table' => 'App\Model\Resource\Table\Quote']);
-//
-        $quoteResource = $this->_di->newInstance('App\Model\Resource\DBEntity', ['table' => 'App\Model\Resource\Table\Quote']);
-
-        $itemResource = $this->_di->newInstance('App\Model\Resource\DBEntity', ['table' => 'App\Model\Resource\Table\QuoteItem']);
-        $itemsResource = $this->_di->newInstance('App\Model\Resource\DBCollection', ['table' => 'App\Model\Resource\Table\QuoteItem']);
-        $itemPrototype = new \App\Model\QuoteItem([], $itemResource);
-
-        $quoteItems = new \App\Model\QuoteItemCollection($itemsResource, $itemPrototype);
-        $quote = new \App\Model\Quote([], $quoteResource, $quoteItems);
-
+        $quote = $this->_di->get('Quote');
         $session = $this->_di->get('Session');
+
         $quote->loadBySession($session);
         return $quote;
     }

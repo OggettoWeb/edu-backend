@@ -4,6 +4,8 @@ namespace App\Model;
 class QuoteItem
     extends Entity
 {
+    private $_product;
+
     public function getProductId()
     {
         return $this->_data['product_id'];
@@ -17,6 +19,12 @@ class QuoteItem
     public function assignToProduct(Product $product)
     {
         $this->_data['product_id'] = $product->getId();
+        $this->_product = $product;
+    }
+
+    public function getProduct()
+    {
+        return $this->_product;
     }
 
     public function getQty()

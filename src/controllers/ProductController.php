@@ -13,7 +13,8 @@ class ProductController
             ->setCurrentPageNumber(isset($_GET['p']) ? $_GET['p'] : 1);
         $pages = $paginator->getPages();
 
-        $products = $this->_di->get('ProductCollection', ['resource' => $resource]);
+        $product = $this->_di->get('Product');
+        $products = $this->_di->get('ProductCollection', ['resource' => $resource, 'productPrototype' => $product]);
 
         return $this->_di->get('View', [
             'template' => 'product_list',
