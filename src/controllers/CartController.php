@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 class CartController
-    extends ActionController
+    extends SalesController
 {
     public function addProductAction()
     {
@@ -36,12 +36,4 @@ class CartController
         return $item;
     }
 
-    private function _initQuote()
-    {
-        $quote = $this->_di->get('Quote');
-        $session = $this->_di->get('Session');
-
-        $quote->loadBySession($session);
-        return $quote;
-    }
 }

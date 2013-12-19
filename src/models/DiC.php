@@ -25,8 +25,6 @@ class DiC
             }
         }
 
-        $this->_im->setShared('App\Model\Resource\DBEntity', false);
-        $this->_im->setShared('App\Model\Resource\DBCollection', false);
     }
 
     private function _assembleDbConnection()
@@ -41,6 +39,9 @@ class DiC
         $this->_im->addTypePreference('App\Model\Resource\IResourceCollection', 'App\Model\Resource\DBCollection');
         $this->_im->addTypePreference('App\Model\Resource\IResourceEntity', 'App\Model\Resource\DBEntity');
         $this->_im->addAlias('ResourceCollection', 'App\Model\Resource\DBCollection');
+
+        $this->_im->setShared('App\Model\Resource\DBEntity', false);
+        $this->_im->setShared('App\Model\Resource\DBCollection', false);
 
     }
 
@@ -95,6 +96,7 @@ class DiC
     private function _assembleQuote()
     {
         $this->_im->setParameters('App\Model\QuoteItem', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+        $this->_im->addAlias('QuoteItem', 'App\Model\QuoteItem');
 
         $this->_im->setParameters('App\Model\QuoteItemCollection', [
             'table' => 'App\Model\Resource\Table\QuoteItem',
