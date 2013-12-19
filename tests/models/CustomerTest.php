@@ -22,6 +22,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->with($this->equalTo(['name' => 'Vasia']))
             ->will($this->returnValue(42));
+        $resource->expects($this->any())
+            ->method('getPrimaryKeyField')
+            ->will($this->returnValue('customer_id'));
 
         $customer = new Customer(['name' => 'Vasia'], $resource);
         $customer->save();
@@ -30,10 +33,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnsIdWhichHasBeenInitialized()
     {
-        $customer = new Customer(['customer_id' => 1]);
+        $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
+        $resource->expects($this->any())
+            ->method('getPrimaryKeyField')
+            ->will($this->returnValue('customer_id'));
+
+        $customer = new Customer(['customer_id' => 1], $resource);
         $this->assertEquals(1, $customer->getId());
 
-        $customer = new Customer(['customer_id' => 2]);
+        $customer = new Customer(['customer_id' => 2], $resource);
         $this->assertEquals(2, $customer->getId());
     }
 }

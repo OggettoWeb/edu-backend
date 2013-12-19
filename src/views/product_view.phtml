@@ -18,6 +18,11 @@
             <span class="product-item_price">$<?php echo $product->getSpecialPrice(); ?></span>
         <?php endif; ?>
     </div>
+
+    <form method="post" action="/?page=cart_addProduct">
+        <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+        <input type="submit" value="Buy!"/>
+    </form>
 </div>
 <div class="reviews">
     <h2>Customer Reviews</h2>

@@ -78,4 +78,9 @@ class DBEntity
 
         return $stmt;
     }
+
+    public function getPrimaryKeyField()
+    {
+        return $this->_table->getPrimaryKey();
+    }
 }

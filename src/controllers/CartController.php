@@ -1,65 +1,44 @@
 <?php
+namespace App\Controller;
+
 class CartController
+    extends ActionController
 {
-    public function addAction()
+    public function addProductAction()
     {
         $quoteItem = $this->_initQuoteItem();
-        $quoteItem->addQty($_POST['qty']);
-        $quoteItem->save(new QuoteItemResource);
-    }
-
-    public function updateAction()
-    {
-        $quoteItem = $this->_initQuoteItem();
-        $quoteItem->updateQty($_POST['qty']);
-        $quoteItem->save(new QuoteItemResource);
-    }
-
-    public function deleteAction()
-    {
-        $quoteItem = $this->_initQuoteItem();
-        $quoteItem->delete(new QuoteItemResource);
-    }
-
-    public function listAction()
-    {
-        $quote = $this->_initQuote();
-        $quoteItems = new QuoteItemCollection(new QICollectionResource);
-        $quoteItems->filterByQuote($quote);
-        $quoteItems->assignProducts(new Product(), new ProductResource);
-
-        /*
-        // quote item collection:
-        foreach ($this as $_item) {
-            $product = clone $prototype; // Product
-            $product->load($_item->getProductId());
-            $_item->assignProduct($product); // call getProduct in template
-        }
-        */
+        $quoteItem->addQty(1);
+        $quoteItem->save();
     }
 
     private function _initQuoteItem()
     {
         $quote = $this->_initQuote();
 
-        $product = new Product();
-        $product->load($_POST['product_id'], new ProductResource);
+        $product = $this->_di->get('Product');
+        $product->load($_POST['product_id']);
 
-        $quoteItem = $quote->getItemForProduct($product, new QuoteItemResource);
-        return $quoteItem;
+        $item = $quote->getItems()->forProduct($product);
+        return $item;
     }
 
     private function _initQuote()
     {
-        $quote = new Quote();
-        $session = new Session; // get session
-        if ($session->isLoggedIn()) {
-            $quote->loadByCustomer($session->getCustomer());
-            return $quote;
-        } else {
-            $quote->loadBySession($session);
-            return $quote;
-        }
-    }
+        // no customer quotes for now :(
+//        $quoteItems = $this->_di->get('QuoteItems', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+//        $quote = $this->_di->get('Quote', ['items' => $quoteItems, 'table' => 'App\Model\Resource\Table\Quote']);
+//
+        $quoteResource = $this->_di->newInstance('App\Model\Resource\DBEntity', ['table' => 'App\Model\Resource\Table\Quote']);
 
+        $itemResource = $this->_di->newInstance('App\Model\Resource\DBEntity', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+        $itemsResource = $this->_di->newInstance('App\Model\Resource\DBCollection', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+        $itemPrototype = new \App\Model\QuoteItem([], $itemResource);
+
+        $quoteItems = new \App\Model\QuoteItemCollection($itemsResource, $itemPrototype);
+        $quote = new \App\Model\Quote([], $quoteResource, $quoteItems);
+
+        $session = $this->_di->get('Session');
+        $quote->loadBySession($session);
+        return $quote;
+    }
 }

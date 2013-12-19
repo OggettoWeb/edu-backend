@@ -75,4 +75,34 @@ class ProductReviewTest extends \PHPUnit_Framework_TestCase
         $review = new ProductReview(['name' => 'Vasia'], $resource);
         $review->save();
     }
+
+    public function testGetsIdFromResourceAfterSave()
+    {
+        $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
+        $resource->expects($this->any())
+            ->method('save')
+            ->with($this->equalTo(['name' => 'Vasia']))
+            ->will($this->returnValue(42));
+        $resource->expects($this->any())
+            ->method('getPrimaryKeyField')
+            ->will($this->returnValue('review_id'));
+
+        $review = new ProductReview(['name' => 'Vasia'], $resource);
+        $review->save();
+        $this->assertEquals(42, $review->getId());
+    }
+
+    public function testReturnsIdWhichHasBeenInitialized()
+    {
+        $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
+        $resource->expects($this->any())
+            ->method('getPrimaryKeyField')
+            ->will($this->returnValue('review_id'));
+
+        $review = new Product(['review_id' => 1], $resource);
+        $this->assertEquals(1, $review->getId());
+
+        $review = new Product(['review_id' => 2], $resource);
+        $this->assertEquals(2, $review->getId());
+    }
 }

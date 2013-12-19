@@ -24,6 +24,8 @@ class DiC
                 $_method->invoke($this);
             }
         }
+
+        $this->_im->setShared('App\Model\Resource\DBEntity', false);
     }
 
     private function _assembleDbConnection()
@@ -49,12 +51,14 @@ class DiC
 
     private function _assembleProduct()
     {
-        $this->_im->setParameters('App\Model\ProductCollection', ['table' => 'App\Model\Resource\Table\Product']);
-        $this->_im->addAlias('ProductCollection', 'App\Model\ProductCollection');
-
         $this->_im->setParameters('App\Model\Product', ['table' => 'App\Model\Resource\Table\Product']);
         $this->_im->addAlias('Product', 'App\Model\Product');
 
+        $this->_im->setParameters('App\Model\ProductCollection', [
+            'table' => 'App\Model\Resource\Table\Product',
+            'productPrototype' => 'App\Model\Product'
+        ]);
+        $this->_im->addAlias('ProductCollection', 'App\Model\ProductCollection');
     }
 
     private function _assembleProductReviews()
@@ -85,5 +89,22 @@ class DiC
         $this->_im->setParameters('App\Model\ISessionUser', [
             'session' => $this->_di->get('Session')
         ]);
+    }
+
+    private function _assembleQuote()
+    {
+        $this->_im->setParameters('App\Model\QuoteItem', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+
+        $this->_im->setParameters('App\Model\QuoteItemCollection', [
+            'table' => 'App\Model\Resource\Table\QuoteItem',
+            'itemPrototype' => 'App\Model\QuoteItem'
+        ]);
+        $this->_im->addAlias('QuoteItems', 'App\Model\QuoteItemCollection');
+
+        $this->_im->setParameters('App\Model\Quote', [
+            'table' => 'App\Model\Resource\Table\Quote',
+            'items' => $this->_di->get('App\Model\QuoteItemCollection')
+        ]);
+        $this->_im->addAlias('Quote', 'App\Model\Quote');
     }
 }

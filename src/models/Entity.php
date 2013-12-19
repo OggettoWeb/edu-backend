@@ -16,13 +16,24 @@ class Entity
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
 
-    public function getData($key)
+    public function setData($data)
     {
-        return $this->_getData($key);
+        $this->_data = $data;
     }
 
     public function load($id)
     {
         $this->_data = $this->_resource->find($id);
+    }
+
+    public function save()
+    {
+        $id = $this->_resource->save($this->_data);
+        $this->_data[$this->_resource->getPrimaryKeyField()] = $id;
+    }
+
+    public function getId()
+    {
+        return $this->_getData($this->_resource->getPrimaryKeyField());
     }
 }

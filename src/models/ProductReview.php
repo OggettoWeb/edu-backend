@@ -27,9 +27,4 @@ class ProductReview extends Entity
     {
         return $product == $this->_getData('product');
     }
-
-    public function save()
-    {
-        $this->_resource->save($this->_data);
-    }
 }
