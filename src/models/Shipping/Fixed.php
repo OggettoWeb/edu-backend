@@ -16,5 +16,10 @@ class Fixed implements IMethod
     {
         return $this->_code;
     }
+
+    public function getLabel()
+    {
+        // TODO: Implement getLabel() method.
+    }
 }
  

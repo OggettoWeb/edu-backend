@@ -133,4 +133,34 @@ class QuoteTest
         ;
         $this->assertSame($address, $quote->getAddress());
     }
+
+    public function testCollectsTotalsFromCollectors()
+    {
+        $collectors = [
+            'subtotal'    => $this->_createTotal(42),
+            'shipping'    => $this->_createTotal(21),
+            'grand_total' => $this->_createTotal(42+21),
+
+        ];
+
+        $totalsFactory = $this->getMock('\App\Model\Quote\CollectorsFactory', ['getCollectors']);
+        $totalsFactory->expects($this->once())
+            ->method('getCollectors')
+            ->will($this->returnValue($collectors));
+        $quote = new Quote([], null, null, null, $totalsFactory);
+
+        $quote->collectTotals();
+        $this->assertEquals(42, $quote->getSubtotal());
+        $this->assertEquals(21, $quote->getShipping());
+        $this->assertEquals(42+21, $quote->getGrandTotal());
+    }
+
+    protected function _createTotal($value)
+    {
+        $total = $this->getMock('\App\Model\Quote\ICollector', ['collect']);
+        $total->expects($this->once())
+            ->method('collect')
+            ->will($this->returnValue($value));
+        return $total;
+    }
 }

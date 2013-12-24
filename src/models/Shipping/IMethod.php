@@ -9,5 +9,6 @@ interface IMethod
 
     public function getCode();
 
+    public function getLabel();
 }
  

@@ -7,15 +7,18 @@ class Quote
 {
     private $_items;
     private $_address;
+    private $_collectorsFactory;
 
     public function __construct(
         array $data = [],
         Resource\IResourceEntity $resource = null,
         QuoteItemCollection $items = null,
-        Address $address = null
+        Address $address = null,
+        Quote\CollectorsFactory $collectorsFactory = null
     ) {
         $this->_items = $items;
         $this->_address = $address;
+        $this->_collectorsFactory = $collectorsFactory;
         parent::__construct($data, $resource);
     }
 
@@ -50,5 +53,27 @@ class Quote
     {
         $this->_data['address_id'] = $this->_address->getId();
         $this->save();
+    }
+
+    public function collectTotals()
+    {
+        foreach ($this->_collectorsFactory->getCollectors() as $field => $collector) {
+            $this->_data[$field] = $collector->collect($this);
+        }
+    }
+
+    public function getSubtotal()
+    {
+        return $this->_getData('subtotal');
+    }
+
+    public function getShipping()
+    {
+        return $this->_getData('shipping');
+    }
+
+    public function getGrandTotal()
+    {
+        return $this->_getData('grand_total');
     }
 }
